@@ -23,28 +23,27 @@ export const startGoogleSignIn = () => {
 export const startCreatingUserWithEmailAndPassword = ({email,password, displayName}) => {
     return async( dispatch ) => {
         dispatch( checkingCredentials());
-        const {ok, uid, photoURL, errorMessage} = await registerWithEmailAndPassword({email, password, displayName});
-        if(!ok) return dispatch(logout({errorMessage}));
+        const result = await registerWithEmailAndPassword({email, password, displayName});
+        if(!result.ok) return dispatch(logout(result.errorMessage));
 
-        dispatch( login({uid, displayName, email ,photoURL}));
+        dispatch( login(result));
     }
 }
 
 export const startLoginWithEmailAndPassword = ({email, password}) => {
     return async(dispatch) => {
         dispatch(checkingCredentials());
-        const {ok, uid, photoUrl, displayName ,errorMessage} = await loginWithEmailAndPassword({email, password});
-        if(!ok) return dispatch(logout({errorMessage}));
+        const result = await loginWithEmailAndPassword({email, password});
+        if(!result.ok) return dispatch(logout(result.errorMessage));
 
-        dispatch( login({uid,displayName, email, photoUrl}));
+        dispatch( login(result));
     }
 }
 
 export const startLogOut = () => {
     return async( dispatch ) => {
         await logOutFirebase();
-
-    dispatch(clearNotesLogOut());
-    dispatch(logout({}));
+        dispatch(clearNotesLogOut());
+        dispatch(logout({}));
     }
 }

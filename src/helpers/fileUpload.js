@@ -2,7 +2,9 @@ import { Form } from "react-router-dom";
 
 export const fileUpload = async(file) => {
 
-    if(!file) throw new Error('There are no files to upload');
+    //if(!file) throw new Error('There are no files to upload');
+
+    if(!file) return null;
     const cloudUrl = 'https://api.cloudinary.com/v1_1/dtohsmkin/image/upload';
     const formData = new FormData();
     formData.append('upload_preset', 'react-journal');
@@ -21,6 +23,7 @@ export const fileUpload = async(file) => {
         return cloudResp.secure_url;
 
     } catch (error) {
-        throw new Error(error.message);
+        //throw new Error(error.message);
+        return null;
     }
 }
